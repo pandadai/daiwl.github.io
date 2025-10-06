@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wenlin Dai 代文林 - Personal Academic Website</title>
+    <!-- KaTeX支持 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Computer Modern", "Times New Roman", "SimSun", serif;
+            line-height: 1.6;
+            color: #000;
+            background-color: #fff;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        nav {
+            margin: 30px 0;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: #000;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #4a7c59;
+        }
+        
+        /* 主标题 */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #000;
+        }
+        
+        /* 二级标题 */
+        h2 {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            font-weight: 600;
+            color: #4a7c59;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        /* 三级标题 */
+        h3 {
+            font-size: 1.3rem;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+        
+        /* 段落 */
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+            text-indent: 2em;
+        }
+        
+        /* 列表 */
+        ul, ol {
+            margin: 20px 0 20px 40px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        /* 出版物列表 */
+        .publications {
+            margin: 20px 0;
+        }
+        
+        .publication-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            text-indent: -20px;
+        }
+        
+        /* 荣誉列表 */
+        .awards {
+            margin: 20px 0;
+        }
+        
+        .award-item {
+            margin-bottom: 10px;
+        }
+        
+        /* 教育和工作经历 */
+        .education, .experience {
+            margin: 20px 0;
+        }
+        
+        .education-item, .experience-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        
+        .date {
+            font-weight: bold;
+            color: #666;
+        }
+        
+        /* 语言切换按钮 */
+        .lang-switch {
+            margin: 10px 0 30px 0;
+            text-align: right;
+        }
+        
+        .lang-switch button {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 5px 15px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+        
+        .lang-switch button:hover, .lang-switch button.active {
+            background-color: #4a7c59;
+            color: white;
+            border-color: #4a7c59;
+        }
+        
+        /* 语言内容区域 */
+        .lang-content {
+            display: none;
+        }
+        
+        .lang-content.active {
+            display: block;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 0 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            nav a {
+                font-size: 14px;
+            }
+        }
+        
+        /* 页脚 */
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- 语言切换按钮 -->
+    <div class="lang-switch">
+        <button id="btn-zh" class="active" onclick="switchLanguage('zh')">中文</button>
+        <button id="btn-en" onclick="switchLanguage('en')">English</button>
+    </div>
+    
+    <!-- 导航栏 -->
+    <nav id="nav-bar">
+        <!-- 中文导航 -->
+        <ul id="nav-zh">
+            <li><a href="#bio" onclick="return navigateToSection('bio', 'zh')">个人简介</a></li>
+            <li><a href="#education" onclick="return navigateToSection('education', 'zh')">教育背景</a></li>
+            <li><a href="#experience" onclick="return navigateToSection('experience', 'zh')">工作经历</a></li>
+            <li><a href="#research" onclick="return navigateToSection('research', 'zh')">研究兴趣</a></li>
+            <li><a href="#awards" onclick="return navigateToSection('awards', 'zh')">荣誉奖励</a></li>
+            <li><a href="#publications" onclick="return navigateToSection('publications', 'zh')">发表论文</a></li>
+            <li><a href="#contact" onclick="return navigateToSection('contact', 'zh')">联系方式</a></li>
+        </ul>
+        <!-- 英文导航 -->
+        <ul id="nav-en" style="display: none;">
+            <li><a href="#bio" onclick="return navigateToSection('bio', 'en')">Biography</a></li>
+            <li><a href="#education" onclick="return navigateToSection('education', 'en')">Education</a></li>
+            <li><a href="#experience" onclick="return navigateToSection('experience', 'en')">Work Experience</a></li>
+            <li><a href="#research" onclick="return navigateToSection('research', 'en')">Research Interests</a></li>
+            <li><a href="#awards" onclick="return navigateToSection('awards', 'en')">Awards & Honors</a></li>
+            <li><a href="#publications" onclick="return navigateToSection('publications', 'en')">Publications</a></li>
+            <li><a href="#contact" onclick="return navigateToSection('contact', 'en')">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- 主标题 -->
+    <header>
+        <h1>Wenlin Dai 代文林</h1>
+    </header>
+    
+    <!-- 中文内容 -->
+    <div id="content-zh" class="lang-content active">
+        <!-- 个人简介 -->
+        <section id="bio">
+            <h2>个人简介</h2>
+            <p>代文林，中国人民大学统计与大数据研究院预聘副教授、博士生导师。现任统计与大数据研究院学位工作委员会主任，国家治理大数据和人工智能创新平台副主任。</p>
+            <p>主要研究方向为非参数统计、复杂数据分析与应用统计，以主要作者身份在Journal of the American Statistical Association，Journal of Machine Learning Research, Statistical Science, Science China Mathematics等国内外一流统计与机器学习期刊上发表论文30余篇。主持国家自然科学基金和国家社会科学基金项目。</p>
+            <p>曾获得泛华统计协会国际大会Young Researcher Award，担任中国现场统计研究会统计调查分会理事，统计交叉科学分会理事。</p>
+        </section>
+        
+        <!-- 教育背景 -->
+        <section id="education">
+            <h2>教育背景</h2>
+            <div class="education">
+                <div class="education-item">
+                    <span class="date">2004-09至2008-06</span>，北京理工大学，理学院，本科
+                </div>
+                <div class="education-item">
+                    <span class="date">2008-09至2010-06</span>，北京理工大学，理学院，硕士，导师:田玉斌教授
+                </div>
+                <div class="education-item">
+                    <span class="date">2011-09至2014-11</span>，香港浸会大学，理学院，博士，导师:童铁军教授
+                </div>
+            </div>
+        </section>
+        
+        <!-- 工作经历 -->
+        <section id="experience">
+            <h2>工作经历</h2>
+            <div class="experience">
+                <div class="experience-item">
+                    <span class="date">2014-11至2015-08</span>，香港浸会大学深圳研究院，助理研究员
+                </div>
+                <div class="experience-item">
+                    <span class="date">2015-09至2018-08</span>，阿卜杜拉国王科技大学，博士后
+                </div>
+                <div class="experience-item">
+                    <span class="date">2018-09至2023-07</span>，中国人民大学，统计与大数据研究院，助理教授
+                </div>
+                <div class="experience-item">
+                    <span class="date">2023-08至今</span>，中国人民大学，统计与大数据研究院，准聘副教授
+                </div>
+                <div class="experience-item">
+                    <span class="date">2024-08至今</span>，中国人民大学，国家治理大数据和人工智能创新平台，副主任
+                </div>
+            </div>
+        </section>
+        
+        <!-- 研究兴趣 -->
+        <section id="research">
+            <h2>研究兴趣</h2>
+            
+            <h3>非参数统计</h3>
+            <ul>
+                <li>非参数回归中的方差估计和导数估计</li>
+                <li>大规模数据的子采样方法</li>
+                <li>基于能量准则的回归问题子采样</li>
+            </ul>
+            
+            <h3>函数数据分析</h3>
+            <ul>
+                <li>多元函数数据的可视化和异常检测</li>
+                <li>函数数据的稳健统计方法</li>
+                <li>环境数据分析中的函数统计方法应用</li>
+            </ul>
+            
+            <h3>网络数据分析</h3>
+            <ul>
+                <li>动态网络中的社区检测算法</li>
+                <li>连续时间网络的社区霍克斯模型</li>
+                <li>社交认知中的脑连接学习</li>
+            </ul>
+        </section>
+        
+        <!-- 荣誉奖励 -->
+        <section id="awards">
+            <h2>荣誉奖励</h2>
+            
+            <div class="awards">
+                <div class="award-item">泛华统计协会国际大会Young Researcher Award</div>
+                <div class="award-item">中国现场统计研究会统计调查分会理事</div>
+                <div class="award-item">中国现场统计研究会统计交叉科学分会理事</div>
+            </div>
+        </section>
+        
+        <!-- 发表论文 -->
+        <section id="publications">
+            <h2>代表论文</h2>
+            
+            <h3>非参数统计</h3>
+            <div class="publications">
+                <div class="publication-item">
+                    Yan Song, Wenlin Dai* and Marc G. Genton. "Large-scale low-rank Gaussian process prediction with support points". Journal of the American Statistical Association, in press.
+                </div>
+                <div class="publication-item">
+                    Xuehu Zhu, Weixuan Yuan, Zongben Xu and Wenlin Dai*. "Optimal subsampling for principal component analysis". Science China: Mathematics, in press.
+                </div>
+                <div class="publication-item">
+                    Maoyu Zhang and Wenlin Dai*. "On difference-based gradient estimation in nonparametric regression". Statistical Analysis and Data Mining, 17: e11644, 2024.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai, Yan Song and Dianpeng Wang. "A subsampling method for regression problems based on minimum energy criterion". Technometrics, 65: 192–205, 2023.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai, Tiejun Tong and Lixing Zhu. "On the choice of difference sequence in a unified framework for variance estimation in nonparametric regression". Statistical Science, 32: 455–468, 2017.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai, Tiejun Tong and Marc G. Genton. "Optimal estimation of derivatives in nonparametric regression". Journal of Machine Learning Research, 17: 1–25, 2016.
+                </div>
+            </div>
+            
+            <h3>函数数据分析</h3>
+            <div class="publications">
+                <div class="publication-item">
+                    Zhuo Qu, Wenlin Dai, Carolina Euan, Ying Sun and Marc G. Genton. "Exploratory functional data analysis" (with discussion). TEST, in press.
+                </div>
+                <div class="publication-item">
+                    Maoyu Zhang, Yan Song and Wenlin Dai*. "Fast robust location and scatter estimation: a depth-based method". Technometrics, 66: 14–27, 2024.
+                </div>
+                <div class="publication-item">
+                    Zhuo Qu, Wenlin Dai* and Marc G. Genton. "Robust functional multivariate analysis of variance with environmental applications". Environmetrics, 32: e2641, 2021.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai, Tomas Mrkvicka, Ying Sun and Marc G. Genton. "Functional outlier detection and taxonomy by sequential transformations". Computational Statistics & Data Analysis, 149: 106960, 2020.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai and Marc G. Genton. "Directional outlyingness for multivariate functional data". Computational Statistics & Data Analysis, 131: 50–65, 2019.
+                </div>
+            </div>
+            
+            <h3>网络数据分析</h3>
+            <div class="publications">
+                <div class="publication-item">
+                    Maoyu Zhang, Biao Cai, Wenlin Dai, Dehan Kong, Hongyu Zhao and Jingfei Zhang. "Learning brain connectivity in social cognition with dynamic network regression". Annals of Applied Statistics, in press.
+                </div>
+                <div class="publication-item">
+                    Haosheng Shi and Wenlin Dai*. "A community Hawkes model for continuous–time networks with interaction heterogeneity". Statistica Sinica, in press.
+                </div>
+                <div class="publication-item">
+                    Maoyu Zhang, Jingfei Zhang and Wenlin Dai*. "Fast community detection in dynamic and heterogeneous networks". Journal of Computational and Graphical Statistics, 33: 487–500, 2024.
+                </div>
+            </div>
+            
+            <p style="text-indent: 0; margin-top: 30px; text-align: center;">
+                <a href="https://sites.google.com/view/wenlindai" style="color: #4a7c59; text-decoration: none; text-indent: 0;">访问Google Scholar个人主页</a>
+            </p>
+        </section>
+        
+        <!-- 联系方式 -->
+        <section id="contact">
+            <h2>联系方式</h2>
+            <p>中国人民大学统计与大数据研究院</p>
+            <p>电子邮件：wenlin.dai@ruc.edu.cn</p>
+            <p>办公电话：+86 10 6251 5642</p>
+            <p>个人主页：<a href="https://sites.google.com/view/wenlindai" style="color: #4a7c59; text-decoration: none;">https://sites.google.com/view/wenlindai</a></p>
+        </section>
+    </div>
+    
+    <!-- 英文内容 -->
+    <div id="content-en" class="lang-content">
+        <!-- 个人简介 -->
+        <section id="bio">
+            <h2>Biography</h2>
+            <p>Wenlin Dai is an Associate Professor (Tenure-Track) and Doctoral Supervisor at the Institute of Statistics and Big Data, Renmin University of China. He currently serves as the Director of the Degree Committee of the Institute of Statistics and Big Data, and the Deputy Director of the National Governance Big Data and Artificial Intelligence Innovation Platform.</p>
+            <p>His main research interests include nonparametric statistics, complex data analysis, and applied statistics. He has published more than 30 papers as a primary author in top statistical and machine learning journals such as Journal of the American Statistical Association, Journal of Machine Learning Research, Statistical Science, and Science China Mathematics. He has主持ed projects funded by the National Natural Science Foundation of China and the National Social Science Foundation of China.</p>
+            <p>He was awarded the Young Researcher Award at the International Conference of the International Chinese Statistical Association. He serves as a council member of the Statistical Survey Branch and the Statistical Interdisciplinary Science Branch of the Chinese Association for Applied Statistics.</p>
+        </section>
+        
+        <!-- 教育背景 -->
+        <section id="education">
+            <h2>Education</h2>
+            <div class="education">
+                <div class="education-item">
+                    <span class="date">2004-09 to 2008-06</span>, Beijing Institute of Technology, School of Science, Bachelor's Degree
+                </div>
+                <div class="education-item">
+                    <span class="date">2008-09 to 2010-06</span>, Beijing Institute of Technology, School of Science, Master's Degree, Supervisor: Professor Yubin Tian
+                </div>
+                <div class="education-item">
+                    <span class="date">2011-09 to 2014-11</span>, Hong Kong Baptist University, Faculty of Science, Ph.D., Supervisor: Professor Tiejun Tong
+                </div>
+            </div>
+        </section>
+        
+        <!-- 工作经历 -->
+        <section id="experience">
+            <h2>Work Experience</h2>
+            <div class="experience">
+                <div class="experience-item">
+                    <span class="date">2014-11 to 2015-08</span>, Shenzhen Research Institute, Hong Kong Baptist University, Research Assistant
+                </div>
+                <div class="experience-item">
+                    <span class="date">2015-09 to 2018-08</span>, King Abdullah University of Science and Technology, Postdoctoral Researcher
+                </div>
+                <div class="experience-item">
+                    <span class="date">2018-09 to 2023-07</span>, Renmin University of China, Institute of Statistics and Big Data, Assistant Professor
+                </div>
+                <div class="experience-item">
+                    <span class="date">2023-08 to present</span>, Renmin University of China, Institute of Statistics and Big Data, Associate Professor (Tenure-Track)
+                </div>
+                <div class="experience-item">
+                    <span class="date">2024-08 to present</span>, Renmin University of China, National Governance Big Data and Artificial Intelligence Innovation Platform, Deputy Director
+                </div>
+            </div>
+        </section>
+        
+        <!-- 研究兴趣 -->
+        <section id="research">
+            <h2>Research Interests</h2>
+            
+            <h3>Nonparametric Statistics</h3>
+            <ul>
+                <li>Variance estimation and derivative estimation in nonparametric regression</li>
+                <li>Subsampling methods for large-scale data</li>
+                <li>Energy-based subsampling for regression problems</li>
+            </ul>
+            
+            <h3>Functional Data Analysis</h3>
+            <ul>
+                <li>Visualization and outlier detection for multivariate functional data</li>
+                <li>Robust statistical methods for functional data</li>
+                <li>Environmental data analysis with functional statistical methods</li>
+            </ul>
+            
+            <h3>Network Data Analysis</h3>
+            <ul>
+                <li>Community detection algorithms in dynamic networks</li>
+                <li>Community Hawkes models for continuous-time networks</li>
+                <li>Brain connectivity learning in social cognition</li>
+            </ul>
+        </section>
+        
+        <!-- 荣誉奖励 -->
+        <section id="awards">
+            <h2>Awards and Honors</h2>
+            
+            <div class="awards">
+                <div class="award-item">Young Researcher Award, International Conference of the International Chinese Statistical Association</div>
+                <div class="award-item">Council Member, Statistical Survey Branch, Chinese Association for Applied Statistics</div>
+                <div class="award-item">Council Member, Statistical Interdisciplinary Science Branch, Chinese Association for Applied Statistics</div>
+            </div>
+        </section>
+        
+        <!-- 发表论文 -->
+        <section id="publications">
+            <h2>Selected Publications</h2>
+            
+            <h3>Nonparametric Statistics</h3>
+            <div class="publications">
+                <div class="publication-item">
+                    Yan Song, Wenlin Dai* and Marc G. Genton. "Large-scale low-rank Gaussian process prediction with support points". Journal of the American Statistical Association, in press.
+                </div>
+                <div class="publication-item">
+                    Xuehu Zhu, Weixuan Yuan, Zongben Xu and Wenlin Dai*. "Optimal subsampling for principal component analysis". Science China: Mathematics, in press.
+                </div>
+                <div class="publication-item">
+                    Maoyu Zhang and Wenlin Dai*. "On difference-based gradient estimation in nonparametric regression". Statistical Analysis and Data Mining, 17: e11644, 2024.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai, Yan Song and Dianpeng Wang. "A subsampling method for regression problems based on minimum energy criterion". Technometrics, 65: 192–205, 2023.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai, Tiejun Tong and Lixing Zhu. "On the choice of difference sequence in a unified framework for variance estimation in nonparametric regression". Statistical Science, 32: 455–468, 2017.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai, Tiejun Tong and Marc G. Genton. "Optimal estimation of derivatives in nonparametric regression". Journal of Machine Learning Research, 17: 1–25, 2016.
+                </div>
+            </div>
+            
+            <h3>Functional Data Analysis</h3>
+            <div class="publications">
+                <div class="publication-item">
+                    Zhuo Qu, Wenlin Dai, Carolina Euan, Ying Sun and Marc G. Genton. "Exploratory functional data analysis" (with discussion). TEST, in press.
+                </div>
+                <div class="publication-item">
+                    Maoyu Zhang, Yan Song and Wenlin Dai*. "Fast robust location and scatter estimation: a depth-based method". Technometrics, 66: 14–27, 2024.
+                </div>
+                <div class="publication-item">
+                    Zhuo Qu, Wenlin Dai* and Marc G. Genton. "Robust functional multivariate analysis of variance with environmental applications". Environmetrics, 32: e2641, 2021.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai, Tomas Mrkvicka, Ying Sun and Marc G. Genton. "Functional outlier detection and taxonomy by sequential transformations". Computational Statistics & Data Analysis, 149: 106960, 2020.
+                </div>
+                <div class="publication-item">
+                    Wenlin Dai and Marc G. Genton. "Directional outlyingness for multivariate functional data". Computational Statistics & Data Analysis, 131: 50–65, 2019.
+                </div>
+            </div>
+            
+            <h3>Network Data Analysis</h3>
+            <div class="publications">
+                <div class="publication-item">
+                    Maoyu Zhang, Biao Cai, Wenlin Dai, Dehan Kong, Hongyu Zhao and Jingfei Zhang. "Learning brain connectivity in social cognition with dynamic network regression". Annals of Applied Statistics, in press.
+                </div>
+                <div class="publication-item">
+                    Haosheng Shi and Wenlin Dai*. "A community Hawkes model for continuous–time networks with interaction heterogeneity". Statistica Sinica, in press.
+                </div>
+                <div class="publication-item">
+                    Maoyu Zhang, Jingfei Zhang and Wenlin Dai*. "Fast community detection in dynamic and heterogeneous networks". Journal of Computational and Graphical Statistics, 33: 487–500, 2024.
+                </div>
+            </div>
+            
+            <p style="text-indent: 0; margin-top: 30px; text-align: center;">
+                <a href="https://sites.google.com/view/wenlindai" style="color: #4a7c59; text-decoration: none; text-indent: 0;">Visit Personal Homepage</a>
+            </p>
+        </section>
+        
+        <!-- 联系方式 -->
+        <section id="contact">
+            <h2>Contact Information</h2>
+            <p>Institute of Statistics and Big Data, Renmin University of China</p>
+            <p>Email: wenlin.dai@ruc.edu.cn</p>
+            <p>Office Phone: +86 10 6251 5642</p>
+            <p>Personal Homepage: <a href="https://sites.google.com/view/wenlindai" style="color: #4a7c59; text-decoration: none;">https://sites.google.com/view/wenlindai</a></p>
+        </section>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2024 Wenlin Dai 代文林 - All Rights Reserved</p>
+    </footer>
+    
+    <script>
+        // 语言切换功能
+        function switchLanguage(lang) {
+            // 隐藏所有语言内容
+            document.querySelectorAll('.lang-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // 显示选中的语言内容
+            document.getElementById(`content-${lang}`).classList.add('active');
+            // 更新按钮状态
+            document.querySelectorAll('.lang-switch button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(`btn-${lang}`).classList.add('active');
+            
+            // 切换导航栏语言
+            if (lang === 'zh') {
+                document.getElementById('nav-zh').style.display = 'flex';
+                document.getElementById('nav-en').style.display = 'none';
+            } else {
+                document.getElementById('nav-zh').style.display = 'none';
+                document.getElementById('nav-en').style.display = 'flex';
+            }
+        }
+        
+        // 导航到指定部分并确保显示正确的语言
+        function navigateToSection(sectionId, lang) {
+            // 先切换到正确的语言
+            switchLanguage(lang);
+            
+            // 找到当前活动语言内容区域中的指定部分
+            const activeContent = document.querySelector('.lang-content.active');
+            const section = activeContent.querySelector(`#${sectionId}`);
+            
+            if (section) {
+                // 平滑滚动到该部分
+                section.scrollIntoView({ behavior: 'smooth' });
+                return false; // 阻止默认的锚点行为
+            }
+            return false;
+        }
+        
+        // 初始化数学公式渲染
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        });
+    </script>
+</body>
+</html>
